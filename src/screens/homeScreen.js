@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, SafeAreaView, TextInput, Dimensions, FlatList} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, TextInput, Dimensions, FlatList, TouchableOpacity} from 'react-native';
 import RenderCountriesList from '../components/renderCountriesList';
 import { SelectList } from 'react-native-dropdown-select-list';
 import Feather from 'react-native-vector-icons/Feather'
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import axios from 'axios';
 
 const HomeScreen = ({navigation}) => {
@@ -19,7 +20,7 @@ const HomeScreen = ({navigation}) => {
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
-    const [selected, setSelected] = useState("");
+    const [selected, setSelected] = useState("All");
     const [input, setInput] = useState("");
     const [filteredCountries, setFilteredCountries] = useState([]);
 
@@ -62,7 +63,7 @@ const HomeScreen = ({navigation}) => {
                 return {key: counter, value: region};
             })
 
-            regionsArray.unshift({key: 1, value: "Reset ⟳"});
+            regionsArray.unshift({key: 1, value: "All"});
             
             setRegions(regionsArray);
             console.log("Regions array:",regionsArray);
@@ -74,19 +75,34 @@ const HomeScreen = ({navigation}) => {
     }
     
     const handleSearch = (input) => {
-        
-        setFilteredCountries(countries.filter((country) => {
 
-            if(country.name.common.toLowerCase().startsWith(input.toLowerCase()) || country.name.official.toLowerCase().includes(input.toLowerCase())){
-                return country;
-            }
-        }))
+        const index = regions.indexOf(selected);
+
+        if(selected == "All"){
+            setFilteredCountries(countries.filter((country) => {
+                if(country.name.common.toLowerCase().startsWith(input.toLowerCase()) ||  country.name.common.toLowerCase().includes(input.toLowerCase())){
+                    return country;
+                }
+            }))
+        } else {
+            setFilteredCountries(countries.filter((country) => {
+
+                if(input == "" && country.region == selected){
+                    return country;
+                }
+                else if((country.name.common.toLowerCase().startsWith(input.toLowerCase()) || country.name.common.toLowerCase().includes(input.toLowerCase())) && (country.region == selected)){
+                    return country;
+                }
+            }))
+
+        }
+            
     }
 
     const handleSelection = (region) => {
         console.log(region);
 
-        if(region == "Reset ⟳"){
+        if(region == "All"){
             setFilteredCountries(countries);
             
         }
@@ -106,22 +122,27 @@ const HomeScreen = ({navigation}) => {
         getAllCountries();
     }, [])
 
+    useEffect(() => {
+        setInput("");
+    }, [selected])
+
 
     return(
         <SafeAreaView style={styles.container}>
 
             <View style={styles.searchContainer}>
                 <Feather name='search' color={'gray'} style={styles.inputIcon}/>
-                <TextInput style={styles.input} placeholder="Search country" placeholderTextColor="gray" onChangeText={input => {
+                <TextInput style={styles.input} placeholder="Search country" placeholderTextColor="gray" value={input} onChangeText={input => {
                     
                     setInput(input);
                     handleSearch(input)}}/>
-                    
-                <SelectList data={regions} onSelect={() => handleSelection(selected)} setSelected={(val) => setSelected(val)} save="value" boxStyles={styles.SelectionListBox}  dropdownStyles={styles.SelectionListDropDown} maxHeight={Dimensions.get('window').height * 0.14} placeholder='Select by continent' search={false} dropdownTextStyles={styles.dropDownText}/>
+
+                <SelectList data={regions} onSelect={() => handleSelection(selected)} setSelected={(val) => setSelected(val)} save="value" boxStyles={styles.SelectionListBox}  dropdownStyles={styles.SelectionListDropDown} maxHeight={Dimensions.get('window').height * 0.12} placeholder='Select by continent' search={false} dropdownTextStyles={styles.dropDownText} arrowicon={<SimpleLineIcons name='arrow-down' size={15} style={{top: Dimensions.get('window').height * 0.0035}}/>}/>
+
             </View>
 
             <View style={styles.countriesListContainer}>
-                <FlatList data={input == "" && selected == "" ? countries : filteredCountries} renderItem={({item}) => <RenderCountriesList country={item} navigation={navigation}/>} numColumns={2} keyExtractor={item => item.name.official}/>
+                <FlatList data={input == "" && selected == "All" ? countries : filteredCountries} renderItem={({item}) => <RenderCountriesList country={item} navigation={navigation}/>} numColumns={2} keyExtractor={item => item.name.official}/>
             </View>
         </SafeAreaView>
     )
@@ -138,49 +159,50 @@ const styles = StyleSheet.create({
 
 
     searchContainer: {
-        flex: 0.3,
+        flex: 0.225,
         flexDirection: 'row',
-        alignItems: 'start',
-        justifyContent: 'space-evenly'
-
+        justifyContent: 'space-evenly',
+        alignItems: 'center'
     },
 
     input: {
 
         height: Dimensions.get('window').height * 0.05,
         width: Dimensions.get('window').width * 0.4,
-        maxHeight: Dimensions.get('window').height * 0.08,
-        marginTop: Dimensions.get('window').height * 0.06,
         marginLeft: Dimensions.get('window').width * 0.01,
         borderRadius: 8,
         borderColor: 'black',
         borderWidth: 0.5,
         textAlign: 'center',
-        color: 'black'
+        color: 'black',
+
            
     },
 
     inputIcon: {
         left: Dimensions.get('window').width * 0.055,
-        position: 'absolute',
         marginTop: Dimensions.get('window').height * 0.077,
+        position: 'absolute',
         height: 18,
         width: 18,
 
     },
 
     countriesListContainer: {
-        flex: 0.6,
+        flex: 0.675,
         alignItems: 'center',
+        backgroundColor: 'white',
+        paddingTop: Dimensions.get('window').height * 0.02,
+        borderTopWidth: 0.5,
+        borderStartColor: 'black',
     
     },
 
     SelectionListBox: {
         height: 50, 
-        width: 190,
+        width: 180,
         backgroundColor: 'white',
-        marginTop: Dimensions.get('window').height * 0.05,
-        color: 'white'
+        color: 'white',
     },
 
     SelectionListDropDown: {
@@ -189,6 +211,15 @@ const styles = StyleSheet.create({
 
     dropDownText: {
         color: 'black'
+    },
+
+    selectionList: {
+        backgroundColor: 'orange',
+        top: Dimensions.get('window').height * 0.05,
+        height: Dimensions.get('window').height * 0.08,
+        width: Dimensions.get('window').width * 0.55,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 export default HomeScreen;

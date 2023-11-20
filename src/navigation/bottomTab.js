@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Dimensions } from 'react-native';
 import HomeStack from './homeStack';
 import FavoritesStack from './favoritesStack';
-import FavoritesScreen from '../screens/favoritesScreen';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 

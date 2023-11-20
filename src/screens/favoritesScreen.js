@@ -7,25 +7,39 @@ const FavoritesScreen = ({navigation}) => {
 
     const favoritesArray = useSelector((state) => state.favoritesArray.value);
 
-    return(
-        <View style={styles.container}>
-            <FlatList data={favoritesArray} renderItem={({item}) => <RenderCountriesList country={item} navigation={navigation}/>} style={styles.flatList} numColumns={2}/>
-        </View>
+        if(favoritesArray.length > 0){
+            return(
+                <View style={styles.containerFlatList}>
+                    <FlatList data={favoritesArray} renderItem={({item}) => <RenderCountriesList country={item} navigation={navigation}/>} style={styles.flatList} numColumns={2}/>
+                </View>
+            )
+        } else{
+            return(
+                <View style={styles.emptyContainer}>
+                    <Text>Mark countries as favorites ★ to see them here!</Text>
+                </View>
+            )
+        }
 
-    )
 }
 
 
 const styles = StyleSheet.create({
 
-    container: {
-        flex: 0.9,
+    containerFlatList: {
+        flex: 1,
         backgroundColor: 'white',
+        alignItems: 'center'
+    },
+
+    emptyContainer: {
+        flex: 0.9,
         alignItems: 'center',
+        justifyContent: 'center'
     },
 
     flatList: {
-        marginTop: Dimensions.get('window').height * 0.025
+        marginTop: Dimensions.get('window').height * 0.025,
     }
 })
 export default FavoritesScreen;
