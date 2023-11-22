@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import favoritesArrayReducer from './favorites';
+import favoritesArrayReducer from "./favorites";
 
 export default configureStore({
-    reducer: {
-        favoritesArray: favoritesArrayReducer
-    }
+  reducer: {
+    favoritesArray: favoritesArrayReducer,
+  },
 });

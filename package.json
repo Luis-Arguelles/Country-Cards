@@ -13,7 +13,10 @@
     "preset": "@testing-library/react-native",
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
-    ]
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
@@ -40,6 +43,8 @@
     "react-test-renderer": "18.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.4.0"
