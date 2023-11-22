@@ -12,6 +12,6 @@ Running the project:
 - Run "npm install" in the terminal in order to install all the project's dependencies.
 - Run "npx expo start" in the terminal in order to start the project.
 - Go to the Expo Go app and scan the QR displayed in the terminal to test the app,
-  or type "w" in the terminal in order to display it on a web browser (additional dependencies might be required to be intalled).
+  or type "w" in the terminal to display it on a web browser (additional dependencies might be required to be intalled).
 
 - To run the tests run "npm test" on the terminal.
