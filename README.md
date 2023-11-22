@@ -14,4 +14,4 @@ Running the project:
 - Go to the Expo Go app and scan the QR displayed in the terminal to test the app,
   or type "w" in the terminal to display it on a web browser (additional dependencies might be required to be intalled for this last option).
 
-- To run the tests run "npm test" on the terminal.
+- To run the tests run "npm test" in the terminal.
