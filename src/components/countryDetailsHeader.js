@@ -24,29 +24,21 @@ const CountryDetailsHeader = ({ country, navigation }) => {
         }
 
     }
-
+    
     const handleArrowPress = () => {
         navigation.goBack();
     }
 
-    useEffect(() => {
-        console.log(favoritesArray);
-    }, [favoritesArray])
-
-    useEffect(() => {
-        console.log(starPressed);
-    }, [starPressed])
-
     return(
         <View style={styles.container}>
             
-            <TouchableOpacity style={styles.touchable} onPress={handleArrowPress}>
+            <TouchableOpacity style={styles.touchable} onPress={handleArrowPress} testID='arrowLogo'>
                 <AntDesign name="arrowleft" size={25}/>
             </TouchableOpacity>
 
-            <Text style={styles.countryName}>{country.name.common.length > 30 ? country.name.common.slice(0, 23) + "..." : country.name.common}</Text>
+            <Text style={styles.countryName} testID='countryName'>{country.name.common.length > 30 ? country.name.common.slice(0, 23) + "..." : country.name.common}</Text>
 
-            <TouchableOpacity style={styles.touchable} onPress={handleStarPress}>
+            <TouchableOpacity style={styles.touchable} onPress={handleStarPress} testID='starLogo'>
                 <AntDesign name={starPressed ? 'star' : 'staro'} size={25}/>
             </TouchableOpacity>
 

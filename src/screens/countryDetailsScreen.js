@@ -7,13 +7,10 @@ const CountryDetailsScreen = ({route, navigation}) => {
     let languagesString = "";
     
     for(let language in country.languages){
-
         languagesString = languagesString + " " + country.languages[language] + ","
     }
 
     languagesString = languagesString.slice(0, -1);
-
-    console.log(country);
 
     return(
         <View style={styles.container}>

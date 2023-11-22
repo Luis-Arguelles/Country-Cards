@@ -9,8 +9,8 @@ const RenderCountriesList = ({country, navigation}) => {
     return(
     <TouchableOpacity onPress={handlePress}>
         <View style={styles.container}>
-            <Image source={{uri: country.flags.png}} style={styles.image} testID='country-image'/>
-            <Text style={styles.text} testID='country-name'>{country.name.common}</Text>
+            <Image source={{uri: country.flags.png}} style={styles.image} testID='countryFlag'/>
+            <Text style={styles.text} testID='countryName'>{country.name.common}</Text>
         </View>
     </TouchableOpacity>
     )
