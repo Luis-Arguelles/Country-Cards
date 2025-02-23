@@ -1,4 +1,4 @@
-# Countries Cards
+# World countries and flags cards
 Mobile app that shows information about any country in the world, with a search option by typing and also a selection menu. It includes the possibility of adding your favorite countries to a favorites list.
 
 Requirements: 
